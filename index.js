@@ -9,10 +9,9 @@ canvas.width = innerWidth;
 canvas.height = innerHeight;
 
 // DOM elements for UI
-const scoreEl = document.getElementById("scoreEl");
 const startGameBtn = document.getElementById("startGameBtn");
 const modalEl = document.getElementById("modalEl");
-const bigScoreEl = document.getElementById("bigScoreEl");
+
 
 class Entity {
   constructor(x, y, radius) {
@@ -92,9 +91,6 @@ function init() {
   projectiles = [];
   enemies = [];
   particles = [];
-  score = 0;
-  scoreEl.innerText = score;
-  bigScoreEl.innerText = score;
 }
 
 // function to generate every second a new enemy coming from outside of the screen randomly
@@ -140,7 +136,7 @@ function spawnEnemies() {
 }
 
 let animationId;
-let score = 0;
+
 // animate function executed recursively
 function animate() {
   animationId = requestAnimationFrame(animate);
@@ -201,8 +197,7 @@ function animate() {
         // reduce the radius of enemy or remove enemy
         if (enemy.radius - 10 > 5) {
           // increase our score
-          score += 100;
-          scoreEl.innerText = score;
+
           gsap.to(enemy, {
             radius: enemy.radius - 10,
           });
@@ -211,8 +206,7 @@ function animate() {
           }, 0);
         } else {
           // increase our score
-          score += 250;
-          scoreEl.innerText = score;
+
           setTimeout(() => {
             enemies.splice(enemyIndex, 1);
             projectiles.splice(projectileIndex, 1);
@@ -226,7 +220,6 @@ function animate() {
     // end game
     if (distPlayerEnemy - enemy.radius - player.radius <= 0) {
       cancelAnimationFrame(animationId);
-      bigScoreEl.innerText = score;
       startGameBtn.innerText = "Restart Game";
       modalEl.style.display = "flex";
     }
@@ -243,7 +236,7 @@ window.addEventListener("click", (event) => {
   };
 
   // create new projectile
-  const projectile = new Projectile(player.x, player.y, 300, "white", velocity);
+  const projectile = new Projectile(player.x, player.y, 20, "white", velocity);
   projectiles.push(projectile);
 });
 
